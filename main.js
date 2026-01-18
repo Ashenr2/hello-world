@@ -32,7 +32,11 @@ function createWindow() {
   });
 
   // Load the app
-  if (process.env.NODE_ENV === 'development') {
+  // Check if dist folder exists to determine if we should use dev server
+  const distExists = fs.existsSync(path.join(__dirname, 'dist/index.html'));
+  const isDev = !distExists || process.env.NODE_ENV === 'development';
+
+  if (isDev) {
     mainWindow.loadURL('http://localhost:3000');
     mainWindow.webContents.openDevTools();
   } else {
